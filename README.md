@@ -10,7 +10,7 @@
 * Type this Command in the Termminal and press Enter:
 ` python3 /Users/$USER/Downloads/mathe_quiz.py`
 * if it doesn't work than 
- * Type `phyton3` in the Terminal make sure you have a space behind it
+ * Type `pyton3` in the Terminal make sure you have a space behind it
  *  Drag and drop the downloaded file in to the Terminal
 * Done!
 
