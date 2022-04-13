@@ -13,8 +13,10 @@ root.geometry('600x400+50+50')
 
 # Setting up the Variables
 modus = "non"
+global score
 score = 0
-
+log = "non"
+global Proof
 
 # The Settings Window
 def settings():
@@ -41,52 +43,88 @@ hello.pack()
 
 # The event for the "Play!" Button
 def startgame():
-    Answer = format(value_inside.get())
+    # Get the Selected Mode
+    global mode
+    mode = format(value_inside.get())
+
+    # Debug
     print("Selected Option: {}".format(value_inside.get()))
+
+    # The function for the "Submit" button
+    def clicked(mr_a, mr_b, mode_answer, m_a, m_b,try_ans):
+        try_ans = format(answerField.get())
+        global Proof
+        print(mode, "answer:", try_ans, "real Answer:", mode_answer)
+        msg.showerror(text="Only Numbers are Valid")
+        if try_ans == mode_answer:
+            Proof = True
+            score = + 1
+        else:
+            Proof = False
+        print(Proof)
+
+        m_a = rnd.randint(1, mr_a)
+        m_b = rnd.randint(1, mr_b)
+
+        if mode == "+":
+            mode_answer = m_a + m_b
+
+    # Hide the Launcher Window
     root.withdraw()
-    # The mainloop for "+"
-    if Answer == "+":
-        # Setting up the Window
-        plus = tk.Tk()
-        plus.title("Plus Math Training v0.2")
-        plus.resizable(False, False)
-        plus.geometry('600x400+50+50')
 
-        # Some Stuff
-        def result(score):
-            answ = tk.StringVar()
-            p_a = rnd.randint(1, 5)
-            p_b = rnd.randint(1, 5)
-            plus_answer = p_a + p_b
-            questionLabel = tk.Label(plus, text=("What results in 0 + 0 ?"), font=("Arial", 25, "bold"))
-            questionLabel.pack(side="top")
-            answerField = tk.Entry(plus, width=20,textvariable=answ)
-            answerField.insert(0,"")
-            answerField.pack(side="bottom")
+    # Setting up the Window
+    math = tk.Tk()
+    math.resizable(False, False)
+    math.geometry('600x400+500+500')
 
-        result(score)
-    # The mainloop for "-"
-    elif Answer == "-":
+    # Setting up the GUI
+    questionLabel = tk.Label(math, text="What results in 0 + 0 ?", font=("Arial", 25, "bold"))
+    questionLabel.config()
+    questionLabel.pack(side="top")
+    answerField = tk.Entry(math, text="0")
+    answerField.pack(side="bottom")
+    answerField.focus()
+    Submit = tk.Button(math, text="Submit", )
+    Submit.pack(side="bottom")
+
+    # The code for "+"
+    if mode == "+":
+        # Setting the window title
+        math.title("Plus Math Training v0.2")
+        try_answer = "0"
+        plus_answer = "0"
+        p_a = "0"
+        p_b = "0"
+        pr_a = 5
+        try_answer = format(answerField.get())
+        # Event for clicking "Submit" button
+        Submit.config(command=clicked(pr_a, pr_a, plus_answer, p_a, p_b, try_answer))
+        questionLabel.config(text="%.2f°C = %.2f°F" % (p_b, p_a))
+
+        # Debug
+        print(mode, "answer:", try_answer, "real Answer:", plus_answer)
+
+    # The code for "-"
+    elif mode == "-":
         msg.askyesno("dev -", "This is still in development do you want to proceed anyways", )
-        msg.showerror("nothing -", "This Mode is still in developing")
-
-    # The mainloop for "*"
-    elif Answer == "*":
+        msg.showerror("nothing -", "This Mode is still in developing", command=root.deiconify())
+    # The code for "*"
+    elif mode == "*":
         msg.askyesno("dev *", "This is still in development do you want to proceed anyways", )
-        msg.showerror("nothing *", "This Mode is still in developing")
+        msg.showerror("nothing *", "This Mode is still in developing", command=root.deiconify())
 
-    # The mainloop for "/"
-    elif Answer == "/":
+    # The code for "/"
+    elif mode == "/":
         msg.askyesno("dev /", "This is still in development do you want to proceed anyways", )
-        msg.showerror("nothing /", "This Mode is still in developing")
+        msg.showerror("nothing /", "This Mode is still in developing", command=root.deiconify())
 
     # Error when selecting no Mode
-    elif Answer == "Select a Mode":
-        msg.showwarning("No Mode", "Select a valid Mode")
+    elif mode == "Select a Mode":
+        msg.showwarning("No Mode", "Select a valid Mode", command=root.deiconify())
 
     # You will NEVER see THIS
     else:
-        msg.showwarning("Fatal", "You've broke the System!")
+        msg.showwarning("Fatal", "You've broke the System!", command=root.deiconify())
 
 
 # The function for the "Select a Mode" table
