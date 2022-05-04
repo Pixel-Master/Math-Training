@@ -1,61 +1,49 @@
 # A Window Variant of the Math Quiz
 
 # Imports
+print("Importing Libraries...")
 import tkinter as tk
 from tkinter import messagebox as msg
+print("Successful imported Tkinter!")
 import random as rnd
+print("Successful imported Random!")
+from close import *
+from window import *
+from numbers import *
+from os import *
+print("Successful imported Os!")
+print("Done!")
+
 
 # The Launcher Window
-root = tk.Tk()
-root.title('Math Training Launcher v0.2')
-root.resizable(False, False)
-root.geometry('600x400+50+50')
+root_setup()
 
 # Setting up the Variables
 modus = "non"
-global score
+global score, Proof, m_a, m_b, mr_a, mr_b, math, root
 score = 0
 log = "non"
-global Proof
-
-# The Settings Window
-def settings():
-    settingswindow = tk.Tk()
-    settingswindow.title('Settings')
-    settingswindow.resizable(False, False)
-    settingswindow.geometry('600x400+50+50')
-    Close = tk.Button(settingswindow, text="Close", command=settingswindow.destroy, fg="red")
-    Close.pack(side="bottom")
-
-
-# The Settings Button
-Settings = tk.Button(root, text="Settings", command=settings, fg="red", )
-Settings.pack(side="bottom")
-
-# The Launcher GUI
+askformat = 0
 global started
 global hello
-started = tk.Button(root, text='Next', fg="black", font=("Arial", 30))
-started.pack(side="bottom")
-hello = tk.Label(root, text="WELCOME TO THE MATH QUIZ!", font=("Arial", 25, "bold"))
-hello.pack()
+
 
 
 # The event for the "Play!" Button
 def startgame():
+
     # Get the Selected Mode
     global mode
-    mode = format(value_inside.get())
+    mode = format(window.Mode_table.get())
 
     # Debug
-    print("Selected Option: {}".format(value_inside.get()))
+    print("Selected Mode: {}".format(window.Mode_table.get()))
 
     # The function for the "Submit" button
-    def clicked(mr_a, mr_b, mode_answer, m_a, m_b,try_ans):
+    def clicked(mode_answer, try_ans):
         try_ans = format(answerField.get())
         global Proof
-        print(mode, "answer:", try_ans, "real Answer:", mode_answer)
-        msg.showerror(text="Only Numbers are Valid")
+        print("Mode:", mode, "answer:", try_ans, "real Answer:", mode_answer)
         if try_ans == mode_answer:
             Proof = True
             score = + 1
@@ -76,33 +64,45 @@ def startgame():
     math = tk.Tk()
     math.resizable(False, False)
     math.geometry('600x400+500+500')
+    math.withdraw()
 
     # Setting up the GUI
-    questionLabel = tk.Label(math, text="What results in 0 + 0 ?", font=("Arial", 25, "bold"))
+    questionLabel = tk.Label(math, text=askformat, font=("Arial", 25, "bold"))
     questionLabel.config()
     questionLabel.pack(side="top")
-    answerField = tk.Entry(math, text="0")
+    answerField = tk.Entry(math)
     answerField.pack(side="bottom")
     answerField.focus()
     Submit = tk.Button(math, text="Submit", )
     Submit.pack(side="bottom")
+    close = tk.Button(math, text="Close", fg="red", command=mathclose())
+    close.pack()
+    close.place(x=510, y=350)
 
     # The code for "+"
     if mode == "+":
+        # Showing the Window
+        math.deiconify()
+
         # Setting the window title
         math.title("Plus Math Training v0.2")
-        try_answer = "0"
+
+        # Some variables
         plus_answer = "0"
-        p_a = "0"
-        p_b = "0"
-        pr_a = 5
+        mr_a = 5
+        mr_b = 5
+        m_a = rnd.randint(0, mr_a)
+        m_b = rnd.randint(0, mr_b)
         try_answer = format(answerField.get())
+
         # Event for clicking "Submit" button
-        Submit.config(command=clicked(pr_a, pr_a, plus_answer, p_a, p_b, try_answer))
-        questionLabel.config(text="%.2f°C = %.2f°F" % (p_b, p_a))
+        Submit.config(command=clicked(plus_answer, try_answer))
+        p_askformat = 'What results in {1} + {1}'.format(m_a, m_b)
+        questionLabel.config(text=p_askformat)
 
         # Debug
-        print(mode, "answer:", try_answer, "real Answer:", plus_answer)
+        print("Mode:", mode, "answer:", try_answer, "real Answer:", plus_answer, "mode not func")
+        print("m_a:", m_a, "m_b:", m_b)
 
     # The code for "-"
     elif mode == "-":
@@ -127,20 +127,4 @@ def startgame():
         msg.showwarning("Fatal", "You've broke the System!", command=root.deiconify())
 
 
-# The function for the "Select a Mode" table
-def start():
-    global value_inside
-    value_inside = tk.StringVar(root)
-    options_list = ["+", "-", "*", "/"]
-    value_inside.set("Select a Mode")
-    hello.config(text="Choose your Mode!")
-    question_menu = tk.OptionMenu(root, value_inside, *options_list)
-    question_menu.pack(side="top")
-    started.config(text="Play!", command=startgame)
 
-
-# Adds an event to the "Next" Button
-started.config(command=start)
-
-# The mainloop
-root.mainloop()
