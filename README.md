@@ -5,7 +5,7 @@
 ## Installation
 ### on MacOs
 * Download Python 3 ![Phyton](https://docs.python.org/3/_static/py.svg) for your OS [here](https://www.python.org/downloads/)
-* Download the Math-Quiz code from [here](https://github.com/Pixel-Master/Math-Training/releases/download/Pre-Alpha/math_quiz.py)
+* Download the Math Quiz Console code from [here](https://github.com/Pixel-Master/Math-Training/releases/download/Pre-Alpha/math_quiz.py)
 * Open the terminal
 * Type this Command in the Termminal and press Enter:
 ` python3 /Users/$USER/Downloads/mathe_quiz.py`
